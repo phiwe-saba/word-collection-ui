@@ -1,1 +1,100 @@
-<p>edit-word works!</p>
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            <h4>Edit Word</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form [formGroup]="form"
+                  (ngSubmit)="update()">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Word
+                    </label>
+
+                    <input
+                        class="form-control"
+                        formControlName="word">
+
+                    <div
+                        class="text-danger"
+                        *ngIf="form.controls.word.invalid &&
+                               form.controls.word.touched">
+
+                        Word is required.
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Word Type
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        formControlName="wordType">
+
+                        <option value="">
+
+                            Select Word Type
+
+                        </option>
+
+                        <option
+                            *ngFor="let type of wordTypes"
+                            [value]="type">
+
+                            {{ type }}
+
+                        </option>
+
+                    </select>
+
+                    <div
+                        class="text-danger"
+                        *ngIf="form.controls.wordType.invalid &&
+                               form.controls.wordType.touched">
+
+                        Please select a word type.
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn btn-warning me-2"
+                    type="submit"
+                    [disabled]="isLoading">
+
+                    Update
+
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    (click)="cancel()">
+
+                    Cancel
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
