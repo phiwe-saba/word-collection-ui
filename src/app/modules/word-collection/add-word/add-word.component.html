@@ -1,8 +1,81 @@
-<div class="mb-3">
-  <label class="form-label">Word</label>
-  <input type="text" class="form-control" placeholder="Enter a word">
-</div>
-<div class="mb-3">
-  <label class="form-label">Speech Type</label>
-  <input type="text" class="form-control" placeholder="Enter a word">
+<div class="container mt-4">
+
+  <div class="card shadow">
+
+    <div class="card-header">
+      <h4>Add Word</h4>
+    </div>
+
+    <div class="card-body">
+
+      <form [formGroup]="form" (ngSubmit)="save()">
+
+        <!-- Word -->
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Word
+          </label>
+
+          <input type="text" class="form-control" formControlName="word">
+
+          <div class="text-danger mt-1" *ngIf="form.controls.word.invalid &&
+                               form.controls.word.touched">
+
+            Word is required.
+
+          </div>
+
+        </div>
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Word Type
+          </label>
+
+          <select class="form-select" formControlName="wordType">
+
+            <option value="">
+              Select Word Type
+            </option>
+
+            <option *ngFor="let type of wordTypes" [value]="type">
+
+              {{ type }}
+
+            </option>
+
+          </select>
+
+          <div class="text-danger mt-1" *ngIf="form.controls.wordType.invalid &&
+                               form.controls.wordType.touched">
+
+            Please select a word type.
+
+          </div>
+
+        </div>
+
+        <!-- Buttons -->
+
+        <button type="submit" class="btn btn-success me-2" [disabled]="isLoading">
+
+          Save
+
+        </button>
+
+        <button type="button" class="btn btn-secondary" (click)="cancel()">
+
+          Cancel
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
 </div>
