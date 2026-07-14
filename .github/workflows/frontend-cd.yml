@@ -1,8 +1,8 @@
-name: Backend CD
+name: Frontend CD
 
 on:
   wordflow_run:
-    workflows: ["Backend CI"]
+    workflows: ["Frontend CI"]
     types:
       - completed
 
