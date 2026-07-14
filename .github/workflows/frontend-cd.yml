@@ -1,0 +1,33 @@
+name: Backend CD
+
+on:
+  wordflow_run:
+    workflows: ["Backend CI"]
+    types:
+      - completed
+
+  jobs:
+    deploy:
+
+      if: > github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'master'
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Setup Node
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20.20.0
+
+        - name: Install Dependencies
+          run: npm ci
+
+        - name: Build Angular
+          run: npm run build
+
+        - name: Deploy to Server
+          run: |
+            
