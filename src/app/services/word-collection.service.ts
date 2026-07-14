@@ -6,6 +6,8 @@ import { WordCollection } from '../models/word-collection';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CreateWordRequest } from '../DTOs/create-word-request';
 import { UpdateWordRequest } from '../DTOs/update-word-request';
+import { WordFilterRequest } from '../DTOs/word-filter-request';
+import { PagedResponse } from '../DTOs/paged-response';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class WordCollectionService {
   private updateWordByIdUrl = `${environment.wordCollectionApi.url}${environment.wordCollectionApi.updateWordById}`;
   private deleteWordByIdUrl = `${environment.wordCollectionApi.url}${environment.wordCollectionApi.deleteWordById}`;
   private getWordTypesUrl = `${environment.wordCollectionApi.url}${environment.wordCollectionApi.getWordTypes}`;
+  private searchWordsUrl = `${environment.wordCollectionApi.url}${environment.wordCollectionApi.searchWords}`;
 
   constructor(private httpClient: HttpClient, private errServ: ErrorcommonService) { }
 
@@ -80,6 +83,17 @@ export class WordCollectionService {
   deleteWordById(wordId: number): Observable<void> {
     console.log('Deleting record with ID:', `${this.deleteWordByIdUrl}/${wordId}`);
     return this.httpClient.delete<void>(`${this.deleteWordByIdUrl}/${wordId}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.errServ.handleError(err);
+        return throwError(() => err);
+      })
+    );
+  }
+
+  searchWords(request: WordFilterRequest): Observable<PagedResponse<WordCollection>> {
+    return this.httpClient.post<PagedResponse<WordCollection>>(
+      this.searchWordsUrl, request
+    ).pipe(
       catchError((err: HttpErrorResponse) => {
         this.errServ.handleError(err);
         return throwError(() => err);

@@ -3,11 +3,13 @@ import { WordCollectionService } from '../../../services/word-collection.service
 import { WordCollection } from '../../../models/word-collection';
 import { Router } from "@angular/router";
 import { CommonModule } from '@angular/common';
+import { WordFilterRequest } from '../../../DTOs/word-filter-request';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -15,19 +17,49 @@ export class HomeComponent {
 
   isLoading: boolean = false;
   data: WordCollection[] = [];
+  totalPages: number = 0;
+  totalRecords: number = 0;
+  wordTypes: string[] = [];
+
+  private isSearchMode: boolean = false;
+
+  filter: WordFilterRequest = {
+    word: '',
+    wordType: '',
+    pageNumber: 1,
+    pageSize: 10
+  }
 
   constructor(private wordCollectionService: WordCollectionService, private router: Router) { }
 
   ngOnInit(): void {
+    this.loadWordTypes();
     this.loadData();
   }
 
+  loadWordTypes(): void {
+    this.wordCollectionService.getWordTypes().subscribe({
+      next: (response: string[]) => {
+        this.wordTypes = response;
+      },
+      error: (error) => {
+        console.error('Error fetching word types:', error);
+      }
+    });
+  }
+
   loadData(): void {
+    this.isSearchMode = false;
     this.isLoading = true;
 
     this.wordCollectionService.getAllWords().subscribe({
       next: (response) => {
-        this.data = response;
+        this.totalRecords = response.length;
+        this.totalPages = Math.ceil(response.length / this.filter.pageSize) || 1;
+
+        const start = (this.filter.pageNumber - 1) * this.filter.pageSize;
+        this.data = response.slice(start, start + this.filter.pageSize);
+
         this.isLoading = false;
       },
       error: (error) => {
@@ -35,6 +67,49 @@ export class HomeComponent {
         this.isLoading = false;
       }
     });
+  }
+
+  search(): void {
+    this.isSearchMode = true;
+    this.filter.pageNumber = 1;
+    this.isLoading = true;
+
+    this.wordCollectionService.searchWords(this.filter).subscribe({
+      next: (response) => {
+        this.data = response.data;
+        this.totalPages = response.totalPages;
+        this.totalRecords = response.totalRecords;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error(error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  clear(): void {
+    this.filter = {
+      word: '',
+      wordType: '',
+      pageNumber: 1,
+      pageSize: 10
+    }
+    this.loadData();
+  }
+
+  nextPage(): void {
+    if (this.filter.pageNumber < this.totalPages) {
+      this.filter.pageNumber++;
+      this.isSearchMode ? this.search() : this.loadData();
+    }
+  }
+
+  previousPage(): void {
+    if (this.filter.pageNumber > 1) {
+      this.filter.pageNumber--;
+      this.isSearchMode ? this.search() : this.loadData();
+    }
   }
 
   addWord(): void {

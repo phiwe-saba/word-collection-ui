@@ -1,34 +1,50 @@
-<div class="container">
-    <div class="main-card mb-3 card">
+<div class="container py-4">
+    <div class="main-card mb-3 card p-3">
         <!--Filter-->
-        <div class="row mb-3 mt-4">
-            <div class="col-md-3">
-                <label class="form-label small text-muted">Word</label>
-                <input type="text" class="form-control" placeholder="Enter a word">
+        <div class="row mb-3 g-2 align-items-center">
+
+            <div class="col-md-4">
+                <input class="form-control" [(ngModel)]="filter.word" placeholder="Search word">
             </div>
-            <div class="col-md-3">
-                <label class="form-label small text-muted">Speech Type</label>
-                <input type="text" class="form-control" placeholder="Enter a speech type">
+
+            <div class="col-md-4">
+                <select class="form-select" [(ngModel)]="filter.wordType">
+                    <option value="">All</option>
+                    <option *ngFor="let type of wordTypes" [value]="type">
+                        {{type}}
+                    </option>
+                </select>
             </div>
-            <div class="col-md-2 d-flex align-items-end">
-                <!--<button class="btn btn-primary" (click)="searchItems()">Search</button>-->
+
+            <div class="col-md-4 d-flex gap-2">
+                <button class="btn btn-primary px-4" (click)="search()">
+                    Search
+                </button>
+
+                <button class="btn btn-outline-secondary px-4" (click)="clear()">
+                    Clear
+                </button>
             </div>
+
         </div>
 
-        <button class="btn btn-success mb-3" (click)="addWord()">
+        <button class="btn btn-success mb-3 px-4 py-2" (click)="addWord()">
             Add Word
         </button>
 
         <!--Loading-->
-        <div *ngIf="!isLoading && data.length === 0" class="text-center py-12">
+        <div *ngIf="isLoading" class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden"></span>
             </div>
+        </div>
+
+        <div *ngIf="!isLoading && data.length === 0" class="text-center py-5">
             <p class="mt-2 text-muted">No word found...</p>
         </div>
 
         <!--Table-->
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="!isLoading && data.length > 0">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -42,12 +58,26 @@
                         <td>{{ word.word }}</td>
                         <td>{{ word.wordType }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm me-2" (click)="editWord(word.id)">Edit</button>
-                            <button class="btn btn-danger btn-sm" (click)="deleteWord(word.id)">Delete</button>
+                            <button class="btn btn-warning btn-sm px-3 me-2" (click)="editWord(word.id)">Edit</button>
+                            <button class="btn btn-danger btn-sm px-3" (click)="deleteWord(word.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <button class="btn btn-outline-primary px-4" (click)="previousPage()">
+                Previous
+            </button>
+
+            <span>
+                Page {{filter.pageNumber}} of {{totalPages}}
+            </span>
+
+            <button class="btn btn-outline-primary px-4" (click)="nextPage()">
+                Next
+            </button>
         </div>
     </div>
 </div>
