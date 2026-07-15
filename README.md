@@ -1,27 +1,142 @@
-# WordCollectionUi
+# Word Collection UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.7.
+An Angular 20 web application that allows users to manage a collection of words by their word types.
 
-## Development server
+The application consumes the ASP.NET Core REST API.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Display all words
+- Create new word
+- Edit word
+- Delete word
+- Search by word
+- Filter by word type
+- Pagination
+- Loading indicators
+- Bootstrap UI
+- Responsive design
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Technology Stack
 
-## Running unit tests
+- Angular 20
+- TypeScript
+- Bootstrap 5
+- RxJS
+- Angular Forms
+- Angular Router
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## Screens
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Home
+- Add Word
+- Edit Word
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Project Structure
+
+```
+src/
+│
+├── app/
+│   ├── DTOs/
+│   │
+│   ├── models/
+├   |── modules/components
+│   │
+│   ├── services/
+│   │
+│   └── app.routes.ts
+│
+├── environments/
+│
+└── styles.css
+```
+
+---
+
+## Getting Started
+
+Clone repository
+
+```bash
+git clone https://github.com/phiwe-saba/word-collection-ui.git
+```
+
+Install packages
+
+```bash
+npm install
+```
+
+Run application
+
+```bash
+ng serve
+```
+
+Navigate to
+
+```
+http://localhost:4200
+```
+
+---
+
+## Functionality
+
+### Home
+
+- View words
+- Search
+- Filter
+- Pagination
+
+<img width="1732" height="757" alt="image" src="https://github.com/user-attachments/assets/eac3ce54-e5f6-43e5-b075-f6c3691dfbc2" />
+
+### Add
+
+- Create new word
+<img width="1853" height="531" alt="image" src="https://github.com/user-attachments/assets/4d6d403b-1dab-4ee8-afe6-99550784a106" />
+
+### Edit
+
+- Update existing word
+<img width="1741" height="536" alt="image" src="https://github.com/user-attachments/assets/f4fdb535-c887-4f24-944a-cb969d1d8fdf" />
+
+### Delete
+
+- Remove word
+<img width="1832" height="532" alt="image" src="https://github.com/user-attachments/assets/8bf985f4-e925-401a-841a-a9a588997787" />
+
+---
+
+## CI/CD
+
+GitHub Actions automatically:
+
+- Install dependencies
+- Build Angular
+- Run tests
+
+---
+
+## Future Improvements
+
+- Authentication
+- Toast Notifications
+- Lazy Loading
+- Unit Tests
+
+---
+
+## Author
+
+Sibulele Saba
