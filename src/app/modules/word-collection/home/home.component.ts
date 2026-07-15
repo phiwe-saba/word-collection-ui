@@ -125,12 +125,9 @@ export class HomeComponent {
       return;
     }
 
-    console.log('Deleting record with ID:', wordId);
     this.wordCollectionService.deleteWordById(wordId).subscribe({
       next: () => {
         this.data = this.data.filter(x => x.id !== wordId);
-        console.log('data', this.data);
-        console.log('wordId', wordId);
       },
       error: (err) => {
         console.error('Error deleting record:', err);

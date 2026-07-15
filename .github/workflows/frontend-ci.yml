@@ -4,13 +4,12 @@ on:
   push:
     branches: 
       - master
-      - feature/collection-changes
-
+      - feature/*
 
   pull_request:
     branches: 
       - master
-      - feature/collection-changes
+      - feature/*
 
 jobs:
 
